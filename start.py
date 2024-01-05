@@ -1,20 +1,12 @@
 import pygame
 import sys
 import os
+from constants import *
 
 pygame.init()
 
-YELLOW = pygame.Color("yellow")
-RED = pygame.Color("red")
-GREEN = pygame.Color("#00FF00")
-BLUE = pygame.Color(0, 0, 255)
-BLACK = pygame.Color("#000000")
-WHITE = pygame.Color(255, 255, 255)
-SIZE = WIDTH, HEIGHT = (800, 550)
-
 screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
-FPS = 50
 enemy_list = []
 player = None
 all_sprites = pygame.sprite.Group()
@@ -22,68 +14,6 @@ tiles_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 box_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
-
-
-def terminate():
-    pygame.quit()
-    sys.exit()
-
-
-def load_image(name, colorkey=None):
-    fullname = os.path.join('data', name)
-    # если файл не существует, то выходим
-    if not os.path.isfile(fullname):
-        print(f"Файл с изображением '{fullname}' не найден")
-        sys.exit()
-    image = pygame.image.load(fullname)
-    return image
-
-
-def start_screen():
-    intro_text = []
-
-    fon = pygame.transform.scale(load_image('starttt_screen.jpg'), (WIDTH, HEIGHT))
-    screen.blit(fon, (0, 0))
-    font = pygame.font.Font(None, 30)
-    text_coord = 50
-    for line in intro_text:
-        string_rendered = font.render(line, 1, pygame.Color('black'))
-        intro_rect = string_rendered.get_rect()
-        text_coord += 10
-        intro_rect.top = text_coord
-        intro_rect.x = 10
-        text_coord += intro_rect.height
-        screen.blit(string_rendered, intro_rect)
-    while True:
-        for event in pygame.event.get():
-            pos = pygame.mouse.get_pos()
-            if event.type == pygame.QUIT:
-                terminate()
-            elif event.type == pygame.MOUSEBUTTONDOWN and 287 < pos[0] < 498 and 402 < pos[1] < 462:
-                return  # начинаем игру
-        pygame.display.flip()
-        clock.tick(FPS)
-
-
-def load_level(filename):
-    filename = "data/" + filename
-    with open(filename, 'r') as mapFile:
-        level_map = [line.strip() for line in mapFile]
-
-    max_width = max(map(len, level_map))
-
-    return list(map(lambda x: x.ljust(max_width, '.'), level_map))
-
-
-pygame.display.set_caption('Double Dungeons')
-tile_images = {
-    'wall': load_image('wood.png'),
-    'empty': load_image('stone.png')
-}
-player_image = load_image('knight.png')
-enemy1_image = load_image('broomstickman.png')
-
-tile_width = tile_height = 50
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -138,6 +68,68 @@ class Player(pygame.sprite.Sprite):
                 self.rect = self.rect.move(-50, 0)
 
 
+def terminate():
+    pygame.quit()
+    sys.exit()
+
+
+def load_image(name, colorkey=None):
+    fullname = os.path.join('data', name)
+    # если файл не существует, то выходим
+    if not os.path.isfile(fullname):
+        print(f"Файл с изображением '{fullname}' не найден")
+        sys.exit()
+    image = pygame.image.load(fullname)
+    return image
+
+
+def start_screen():
+    intro_text = []
+
+    fon = pygame.transform.scale(load_image('startscreen_background_1.png'), (WIDTH, HEIGHT))
+    screen.blit(fon, (0, 0))
+    font = pygame.font.Font(None, 30)
+    text_coord = 50
+    for line in intro_text:
+        string_rendered = font.render(line, 1, pygame.Color('black'))
+        intro_rect = string_rendered.get_rect()
+        text_coord += 10
+        intro_rect.top = text_coord
+        intro_rect.x = 10
+        text_coord += intro_rect.height
+        screen.blit(string_rendered, intro_rect)
+    while True:
+        for event in pygame.event.get():
+            pos = pygame.mouse.get_pos()
+            if event.type == pygame.QUIT:
+                terminate()
+            elif event.type == pygame.MOUSEBUTTONDOWN and 287 < pos[0] < 498 and 402 < pos[1] < 462:
+                return  # начинаем игру
+        pygame.display.flip()
+        clock.tick(FPS)
+
+
+def load_level(filename):
+    filename = "data/" + filename
+    with open(filename, 'r') as mapFile:
+        level_map = [line.strip() for line in mapFile]
+
+    max_width = max(map(len, level_map))
+
+    return list(map(lambda x: x.ljust(max_width, '.'), level_map))
+
+
+pygame.display.set_caption('Double Dungeons')
+tile_images = {
+    'wall': load_image('wood.png'),
+    'empty': load_image('stone.png')
+}
+player_image = load_image('knight.png')
+enemy1_image = load_image('broomstickman.png')
+
+tile_width = tile_height = 50
+
+
 def generate_level(level):
     new_player, x, y = None, None, None
     px, py = None, None
@@ -159,8 +151,8 @@ def generate_level(level):
     return new_player, x, y
 
 
-
 start_screen()
+
 player, level_x, level_y = generate_level(load_level('map.txt'))
 running = True
 while running:
