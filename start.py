@@ -4,7 +4,7 @@ import os
 
 from pytmx import pytmx
 
-from constants import *
+from settings import *
 
 pygame.init()
 
