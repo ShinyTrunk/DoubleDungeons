@@ -18,7 +18,14 @@ player_group = pygame.sprite.Group()
 box_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 
-
+def load_image(name, colorkey=None):
+    fullname = os.path.join('data', name)
+    # если файл не существует, то выходим
+    if not os.path.isfile(fullname):
+        print(f"Файл с изображением '{fullname}' не найден")
+        sys.exit()
+    image = pygame.image.load(fullname)
+    return image
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__(enemy_group, all_sprites)
@@ -55,15 +62,16 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def cut_sheet(self, sheet, columns, rows):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
                                 sheet.get_height() // rows)
-        for j in range(rows):
-            for i in range(columns):
-                frame_location = (self.rect.w * i, self.rect.h * j)
-                self.frames.append(sheet.subsurface(pygame.Rect(
-                    frame_location, self.rect.size)))
+        for i in range(columns):
+            frame_location = (self.rect.w * i, self.rect.h * 0)
+            self.frames.append(sheet.subsurface(pygame.Rect(
+                frame_location, self.rect.size)))
 
     def update(self):
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.image = self.frames[self.cur_frame]
+
+knight = AnimatedSprite(load_image("Thief_anim4.png"), 8, 5, 120, 80)
 
 
 class Player(pygame.sprite.Sprite):
@@ -94,19 +102,13 @@ class Player(pygame.sprite.Sprite):
                 self.rect = self.rect.move(-50, 0)
 
 
+
 def terminate():
     pygame.quit()
     sys.exit()
 
 
-def load_image(name, colorkey=None):
-    fullname = os.path.join('data', name)
-    # если файл не существует, то выходим
-    if not os.path.isfile(fullname):
-        print(f"Файл с изображением '{fullname}' не найден")
-        sys.exit()
-    image = pygame.image.load(fullname)
-    return image
+
 
 
 def start_screen():
