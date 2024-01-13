@@ -18,6 +18,7 @@ player_group = pygame.sprite.Group()
 box_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 
+
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
     # если файл не существует, то выходим
@@ -26,12 +27,6 @@ def load_image(name, colorkey=None):
         sys.exit()
     image = pygame.image.load(fullname)
     return image
-class Enemy(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y):
-        super().__init__(enemy_group, all_sprites)
-        self.image = enemy1_image
-        self.rect = self.image.get_rect().move(
-            tile_width * pos_x + 5, tile_height * pos_y + 5)
 
 
 class Tile(pygame.sprite.Sprite):
@@ -51,40 +46,51 @@ class Box(pygame.sprite.Sprite):
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
-    def __init__(self, sheet, columns, rows, x, y):
+    def __init__(self, sheet, columns, rows, x, y, animation, length):
         super().__init__(all_sprites)
         self.frames = []
-        self.cut_sheet(sheet, columns, rows)
+        self.animation = animation
+        self.length = length
+        self.cut_sheet(sheet, columns, rows, self.animation, self.length)
         self.cur_frame = 0
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(x, y)
 
-    def cut_sheet(self, sheet, columns, rows):
+    def cut_sheet(self, sheet, columns, rows, animation, length):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
                                 sheet.get_height() // rows)
-        for i in range(columns):
-            frame_location = (self.rect.w * i, self.rect.h * 0)
+        for i in range(length):
+            frame_location = (self.rect.w * i, self.rect.h * animation)
             self.frames.append(sheet.subsurface(pygame.Rect(
                 frame_location, self.rect.size)))
 
-    def update(self):
+    def update_anim(self):
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.image = self.frames[self.cur_frame]
 
-knight = AnimatedSprite(load_image("Thief_anim4.png"), 8, 5, 120, 80)
 
-
-class Player(pygame.sprite.Sprite):
-    def __init__(self, pos_x, pos_y):
-        super().__init__(player_group, all_sprites)
-        self.image = player_image
+# knight = AnimatedSprite(load_image("Thief_anim4.png"), 8, 5, 120, 80)
+class Enemy(AnimatedSprite):
+    def __init__(self, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
+        super().__init__(sheet, columns, rows, x, y, animation, length)
+        # self.image = enemy1_image
+        # self.first_line = first_line
         self.rect = self.image.get_rect().move(
             tile_width * pos_x + 5, tile_height * pos_y + 5)
 
+
+class Player(AnimatedSprite):
+    def __init__(self, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
+        super().__init__(sheet, columns, rows, x, y, animation, length)
+        # self.image = player_image
+        self.rect = self.image.get_rect().move(
+            tile_width * pos_x + 5, tile_height * pos_y + 5)
     def update(self, *args, **kwargs):
         if args:
             if args[0] == pygame.K_UP:
-                self.rect = self.rect.move(0, -50)
+                player_group.sprites()[0].animation = 1
+                for i in range(10):
+                    self.rect = self.rect.move(0, -5)
             if args[0] == pygame.K_DOWN:
                 self.rect = self.rect.move(0, 50)
             if args[0] == pygame.K_LEFT:
@@ -102,13 +108,9 @@ class Player(pygame.sprite.Sprite):
                 self.rect = self.rect.move(-50, 0)
 
 
-
 def terminate():
     pygame.quit()
     sys.exit()
-
-
-
 
 
 def start_screen():
@@ -152,7 +154,7 @@ tile_images = {
     'wall': load_image('wood.png'),
     'empty': load_image('dessert_floor_2.png')
 }
-player_image = load_image('knight.png')
+# player_image = load_image('knight.png')
 enemy1_image = load_image('broomstickman.png')
 
 tile_width = tile_height = 50
@@ -173,24 +175,31 @@ def generate_level(level):
             elif level[y][x] == '!':
                 Tile('empty', x, y)
                 enemy_list.append([x, y])
-    for i in enemy_list:
-        Enemy(i[0], i[1])
-    new_player = Player(px, py)
+    for i in range(len(enemy_list)):
+        if True:
+            enemy_group.add(Enemy(enemy_list[i][0], enemy_list[i][1], load_image("Thief_anim4.png"), 8, 5, 120, 80, 0, 8))
+        # if i % 2 != 0:
+        #     enemy_group.add(Enemy(enemy_list[i][0], enemy_list[i][1], load_image("Anomaly_anim.png"), 7, 5, 120, 80))
+    new_player = Player(px, py, load_image("Knight_anin — copy.png"), 14, 7, 120, 80, 0, 7)
+    player_group.add(new_player)
     return new_player, x, y
 
 
 start_screen()
-
 player, level_x, level_y = generate_level(load_level('map.txt'))
 running = True
 while running:
-    clock.tick(60)
+    clock.tick(10)
     screen.fill(BLACK)
+    player_group.sprites()[0].update_anim()
+    for sprite in enemy_group.sprites():
+        sprite.update_anim()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
             player.update(event.key)
+    # player.update_anim()
     all_sprites.draw(screen)
     pygame.display.flip()
 
