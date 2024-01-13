@@ -176,10 +176,10 @@ def generate_level(level):
                 Tile('empty', x, y)
                 enemy_list.append([x, y])
     for i in range(len(enemy_list)):
-        if True:
+        if i % 2 == 0:
             enemy_group.add(Enemy(enemy_list[i][0], enemy_list[i][1], load_image("Thief_anim4.png"), 8, 5, 120, 80, 0, 8))
-        # if i % 2 != 0:
-        #     enemy_group.add(Enemy(enemy_list[i][0], enemy_list[i][1], load_image("Anomaly_anim.png"), 7, 5, 120, 80))
+        if i % 2 != 0:
+            enemy_group.add(Enemy(enemy_list[i][0], enemy_list[i][1], load_image("Anomaly_anim.png"), 7, 5, 120, 80, 0, 6))
     new_player = Player(px, py, load_image("Knight_anin — copy.png"), 14, 7, 120, 80, 0, 7)
     player_group.add(new_player)
     return new_player, x, y
