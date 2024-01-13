@@ -88,24 +88,22 @@ class Player(AnimatedSprite):
     def update(self, *args, **kwargs):
         if args:
             if args[0] == pygame.K_UP:
-                player_group.sprites()[0].animation = 1
-                for i in range(10):
-                    self.rect = self.rect.move(0, -5)
+                self.rect = self.rect.move(0, -64)
             if args[0] == pygame.K_DOWN:
-                self.rect = self.rect.move(0, 50)
+                self.rect = self.rect.move(0, 64)
             if args[0] == pygame.K_LEFT:
-                self.rect = self.rect.move(-50, 0)
+                self.rect = self.rect.move(-64, 0)
             if args[0] == pygame.K_RIGHT:
-                self.rect = self.rect.move(50, 0)
+                self.rect = self.rect.move(64, 0)
         if pygame.sprite.spritecollide(self, box_group, False):
             if args[0] == pygame.K_UP:
-                self.rect = self.rect.move(0, 50)
+                self.rect = self.rect.move(0, 64)
             if args[0] == pygame.K_DOWN:
-                self.rect = self.rect.move(0, -50)
+                self.rect = self.rect.move(0, -64)
             if args[0] == pygame.K_LEFT:
-                self.rect = self.rect.move(50, 0)
+                self.rect = self.rect.move(64, 0)
             if args[0] == pygame.K_RIGHT:
-                self.rect = self.rect.move(-50, 0)
+                self.rect = self.rect.move(-64, 0)
 
 
 def terminate():
@@ -152,12 +150,12 @@ def load_level(filename):
 pygame.display.set_caption('Double Dungeons')
 tile_images = {
     'wall': load_image('wood.png'),
-    'empty': load_image('dessert_floor_2.png')
+    'empty': load_image('dungeon_floor_hz.png')
 }
 # player_image = load_image('knight.png')
 enemy1_image = load_image('broomstickman.png')
 
-tile_width = tile_height = 50
+tile_width = tile_height = 64
 
 
 def generate_level(level):
@@ -187,6 +185,7 @@ def generate_level(level):
 
 start_screen()
 player, level_x, level_y = generate_level(load_level('map.txt'))
+screen = pygame.display.set_mode((960, 960))
 running = True
 while running:
     clock.tick(10)
