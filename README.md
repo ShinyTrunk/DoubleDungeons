@@ -26,3 +26,5 @@
   <h3>Реализация:</h3>
   <p>Все спрайты и тайлсеты расположены в директории data и распределены по отдельным директориям sprites, tilesets. Файл main.py отвечает за запуск приложения, файлы level.py, level_1.py, level_2.py, level_3.py отвечают за генерацию уровней и взаимодействие с ними, в файле start_screen.py реализован функционал стартового окна, в файлах final_screen_1.py, final_screen_2.py реализован функционал двух разных финальных окон, в файле death_screen.py реализован функционал окна, всплывающего после смерти аватара, в файл settings.py занесены константы, в файле creatures.py реализованы классы аватара и врагов. В проекте использованы библиотеки pygame, sys, os, pytmx</p>
 </div>
+<h3>Презентация</h3>
+<a href="https://docs.google.com/presentation/d/1wSzkDbbkqwaAtZv0vvi0JJ2dZOzNlZYZ5N1YgG4xrhc/edit?usp=sharing">DoubleDungeons</a>
