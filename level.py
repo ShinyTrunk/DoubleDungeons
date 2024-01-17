@@ -32,7 +32,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 class Player(AnimatedSprite):
     def __init__(self, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
         super().__init__(sheet, columns, rows, x, y, animation, length)
-        # self.image = player_image
+        # self.image = player_imag
         self.rect = self.image.get_rect().move(
             tile_width * pos_x + 5, tile_height * pos_y + 5)
     def update(self, *args, **kwargs):

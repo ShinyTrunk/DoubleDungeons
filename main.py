@@ -164,7 +164,7 @@ tile_width = tile_height = 50
 
 #def generate_level(level):
 #    new_player, x, y = None, None, None
-#    px, py = None, None
+#    px, py = None, Non
 #    for y in range(len(level)):
 #        for x in range(len(level[y])):
 #            if level[y][x] == '.':
