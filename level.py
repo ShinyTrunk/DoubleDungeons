@@ -59,7 +59,12 @@ tile_images = {
 # player_image = load_image('knight.png')
 enemy1_image = load_image('broomstickman.png')
 tile_width = tile_height = 50
-
+tiles1 = load_image('0x72_16x16DungeonTileset.v5.png')
+tiles1 = pygame.transform.scale(tiles1, (2048, 1024))
+tiles2 = load_image('full tilemap.png')
+tiles2 = pygame.transform.scale(tiles2, (576, 512))
+pygame.image.save(tiles1, os.path.join('data', 'dungeon_tileset_1.png'))
+pygame.image.save(tiles2, os.path.join('data','dungeon_tileset_2.png'))
 
 def generate_level(level):
     new_player, x, y = None, None, None

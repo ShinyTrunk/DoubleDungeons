@@ -69,3 +69,4 @@ class Player(AnimatedSprite):
             if args[0] == pygame.K_RIGHT:
                 self.rect = self.rect.move(-50, 0)
 #
+
