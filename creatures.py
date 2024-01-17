@@ -1,8 +1,9 @@
 import pygame
+from level import box_group, player_group, all_sprites
 
-box_group = pygame.sprite.Group()
-player_group = pygame.sprite.Group()
-all_sprites = pygame.sprite.Group()
+# box_group = pygame.sprite.Group()
+# player_group = pygame.sprite.Group()
+# all_sprites = pygame.sprite.Group()
 tile_width = tile_height = 50
 player = None
 
@@ -44,9 +45,10 @@ class Enemy(AnimatedSprite):
 class Player(AnimatedSprite):
     def __init__(self, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
         super().__init__(sheet, columns, rows, x, y, animation, length)
-        # self.image = player_image
+        # self.image = player_imag
         self.rect = self.image.get_rect().move(
             tile_width * pos_x + 5, tile_height * pos_y + 5)
+
     def update(self, *args, **kwargs):
         if args:
             if args[0] == pygame.K_UP:
@@ -68,5 +70,3 @@ class Player(AnimatedSprite):
                 self.rect = self.rect.move(50, 0)
             if args[0] == pygame.K_RIGHT:
                 self.rect = self.rect.move(-50, 0)
-#
-
