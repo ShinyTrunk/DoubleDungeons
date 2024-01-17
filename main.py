@@ -5,12 +5,12 @@ from creatures import *
 from start_screen import *
 from level import *
 from pytmx import pytmx
-
+from level import screen
 from settings import *
 
 pygame.init()
 
-screen = pygame.display.set_mode(SIZE)
+#screen = pygame.display.set_mode(SIZE)
 clock = pygame.time.Clock()
 enemy_list = []
 player = None
@@ -202,7 +202,7 @@ while running:
         if event.type == pygame.KEYDOWN:
             player.update(event.key)
     # player.update_anim()
-    all_sprites.draw(screen)
+    all_sprites.custom_draw(player)
     pygame.display.flip()
 
 terminate()

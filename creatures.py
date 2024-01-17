@@ -1,8 +1,8 @@
 import pygame
-
-box_group = pygame.sprite.Group()
-player_group = pygame.sprite.Group()
-all_sprites = pygame.sprite.Group()
+from level import box_group, player_group, all_sprites
+#box_group = pygame.sprite.Group()
+#player_group = pygame.sprite.Group()
+#all_sprites = pygame.sprite.Group()
 tile_width = tile_height = 50
 player = None
 
