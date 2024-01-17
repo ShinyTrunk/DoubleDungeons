@@ -1,16 +1,7 @@
+import pygame
 import os
 import sys
-import pygame
 from creatures import *
-
-#all_sprites = pygame.sprite.Group()
-tiles_group = pygame.sprite.Group()
-#box_group = pygame.sprite.Group()
-#player_group = pygame.sprite.Group()
-enemy_group = pygame.sprite.Group()
-enemy_list = []
-player = None
-
 def load_image(name, colorkey=None):
     fullname = os.path.join('data', name)
     # если файл не существует, то выходи
@@ -20,27 +11,9 @@ def load_image(name, colorkey=None):
     image = pygame.image.load(fullname)
     return image
 
-
-class Tile(pygame.sprite.Sprite):
-    def __init__(self, tile_type, pos_x, pos_y):
-        super().__init__(tiles_group, all_sprites)
-        self.image = tile_images[tile_type]
-        self.rect = self.image.get_rect().move(
-            tile_width * pos_x, tile_height * pos_y)
-
-
-class Box(pygame.sprite.Sprite):
-    def __init__(self, tile_type, pos_x, pos_y):
-        super().__init__(tiles_group, all_sprites, box_group)
-        self.image = tile_images[tile_type]
-        self.rect = self.image.get_rect().move(
-            tile_width * pos_x, tile_height * pos_y)
-
-
 def terminate():
     pygame.quit()
     sys.exit()
-
 
 def load_level(filename):
     filename = "data/" + filename
@@ -50,16 +23,6 @@ def load_level(filename):
     max_width = max(map(len, level_map))
 
     return list(map(lambda x: x.ljust(max_width, '.'), level_map))
-
-
-tile_images = {
-    'wall': load_image('wood.png'),
-    'empty': load_image('dessert_floor_2.png')
-}
-# player_image = load_image('knight.png')
-enemy1_image = load_image('broomstickman.png')
-tile_width = tile_height = 50
-
 
 def generate_level(level):
     new_player, x, y = None, None, None
