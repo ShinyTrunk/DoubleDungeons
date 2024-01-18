@@ -1,5 +1,5 @@
 import pygame
-from level import box_group, player_group, all_sprites
+from sprite_groups import box_group, player_group, all_sprites
 
 # box_group = pygame.sprite.Group()
 # player_group = pygame.sprite.Group()
@@ -32,9 +32,8 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.image = self.frames[self.cur_frame]
 
 
-# knight = AnimatedSprite(load_image("Thief_anim4.png"), 8, 5, 120, 80)
 class Enemy(AnimatedSprite):
-    def __init__(self, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
+    def __init__(self, sprite_group, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
         super().__init__(sheet, columns, rows, x, y, animation, length)
         # self.image = enemy1_image
         # self.first_line = first_line
@@ -43,7 +42,7 @@ class Enemy(AnimatedSprite):
 
 
 class Player(AnimatedSprite):
-    def __init__(self, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
+    def __init__(self, sprite_group, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
         super().__init__(sheet, columns, rows, x, y, animation, length)
         # self.image = player_imag
         self.rect = self.image.get_rect().move(
