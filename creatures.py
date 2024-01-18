@@ -9,8 +9,8 @@ player = None
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
-    def __init__(self, sheet, columns, rows, x, y, animation, length):
-        super().__init__(all_sprites)
+    def __init__(self, sprite_group, sheet, columns, rows, x, y, animation, length):
+        super().__init__(all_sprites, sprite_group)
         self.frames = []
         self.animation = animation
         self.length = length
@@ -34,7 +34,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
 class Enemy(AnimatedSprite):
     def __init__(self, sprite_group, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
-        super().__init__(sheet, columns, rows, x, y, animation, length)
+        super().__init__(sprite_group, sheet, columns, rows, x, y, animation, length)
         # self.image = enemy1_image
         # self.first_line = first_line
         self.rect = self.image.get_rect().move(
@@ -42,18 +42,18 @@ class Enemy(AnimatedSprite):
 
 
 class Player(AnimatedSprite):
+
     def __init__(self, sprite_group, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
-        super().__init__(sheet, columns, rows, x, y, animation, length)
+        super().__init__(sprite_group, sheet, columns, rows, x, y, animation, length)
         # self.image = player_imag
+        print(sprite_group)
         self.rect = self.image.get_rect().move(
             tile_width * pos_x + 5, tile_height * pos_y + 5)
 
     def update(self, *args, **kwargs):
         if args:
             if args[0] == pygame.K_UP:
-                player_group.sprites()[0].animation = 1
-                for i in range(10):
-                    self.rect = self.rect.move(0, -5)
+                self.rect = self.rect.move(0, -50)
             if args[0] == pygame.K_DOWN:
                 self.rect = self.rect.move(0, 50)
             if args[0] == pygame.K_LEFT:

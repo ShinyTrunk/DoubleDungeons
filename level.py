@@ -6,7 +6,7 @@ from sprite_groups import enemy_group, player_group
 from creatures import AnimatedSprite, Enemy, Player
 from settings import SIZE
 
-screen = pygame.display.set_mode(SIZE)
+
 
 
 # class AnimatedSprite(pygame.sprite.Sprite):
@@ -80,6 +80,7 @@ player = None
 
 
 def generate_level(level):
+
     new_player, x, y = None, None, None
     px, py = None, None
     for y in range(len(level)):
@@ -93,12 +94,13 @@ def generate_level(level):
     for i in range(len(enemy_list)):
         if i % 2 == 0:
             enemy_group.add(
-                Enemy(enemy_list[i][0], enemy_list[i][1], load_image("Thief_anim4.png"), 8,
+                Enemy(enemy_group, enemy_list[i][0], enemy_list[i][1], load_image("Thief_anim4.png"), 8,
                                 5, 120, 80, 0, 8))
         if i % 2 != 0:
             enemy_group.add(
-                Enemy(enemy_list[i][0], enemy_list[i][1], load_image("Anomaly_anim.png"), 7,
+                Enemy(enemy_group, enemy_list[i][0], enemy_list[i][1], load_image("Anomaly_anim.png"), 7,
                                 5, 120, 80, 0, 6))
     new_player = Player(player_group, px, py, load_image("knight_sprite_animation_64x64.png"), 14, 7, 120,
                                   80, 0, 7)
+
     return new_player, x, y

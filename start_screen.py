@@ -2,22 +2,22 @@ import os
 import sys
 import pygame
 from settings import *
+from level import generate_level
+#screen = pygame.display.set_mode(SIZE)
+#clock = pygame.time.Clock()
+from functions import load_level, load_image
 
-screen = pygame.display.set_mode(SIZE)
-clock = pygame.time.Clock()
+# def load_image(name, colorkey=None):
+#     fullname = os.path.join('data', name)
+#     # если файл не существует, то выходим
+#     if not os.path.isfile(fullname):
+#         print(f"Файл с изображением '{fullname}' не найден")
+#         sys.exit()
+#     image = pygame.image.load(fullname)
+#     return image
 
 
-def load_image(name, colorkey=None):
-    fullname = os.path.join('data', name)
-    # если файл не существует, то выходим
-    if not os.path.isfile(fullname):
-        print(f"Файл с изображением '{fullname}' не найден")
-        sys.exit()
-    image = pygame.image.load(fullname)
-    return image
-
-
-def start_screen():
+def start_screen(screen):
     intro_text = []
 
     fon = pygame.transform.scale(load_image('startscreen_background_1.png'), (WIDTH, HEIGHT))
@@ -38,9 +38,11 @@ def start_screen():
             if event.type == pygame.QUIT:
                 terminate()
             elif event.type == pygame.MOUSEBUTTONDOWN and 287 < pos[0] < 498 and 402 < pos[1] < 462:
-                return  # начинаем игру
+                #return  # начинаем игру
+
+                return
         pygame.display.flip()
-        clock.tick(FPS)
+        #clock.tick(FPS)
 
 
 def terminate():
