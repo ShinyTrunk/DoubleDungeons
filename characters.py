@@ -1,6 +1,7 @@
 import pygame
-from sprite_groups import box_group, player_group, all_sprites
+from sprite_groups import box_group, player_group, all_sprites, walls_group
 from settings import TILE_WIDTH, TILE_HEIGHT
+
 player = None
 
 
@@ -42,7 +43,7 @@ class Player(AnimatedSprite):
     def __init__(self, sprite_group, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
         super().__init__(sprite_group, sheet, columns, rows, x, y, animation, length)
         # self.image = player_imag
-        print(sprite_group)
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect().move(
             TILE_WIDTH * pos_x + 5, TILE_HEIGHT * pos_y + 5)
 
@@ -56,12 +57,13 @@ class Player(AnimatedSprite):
                 self.rect = self.rect.move(-64, 0)
             if args[0] == pygame.K_RIGHT:
                 self.rect = self.rect.move(64, 0)
-        if pygame.sprite.spritecollide(self, box_group, False):
-            if args[0] == pygame.K_UP:
-                self.rect = self.rect.move(0, 64)
-            if args[0] == pygame.K_DOWN:
-                self.rect = self.rect.move(0, -64)
-            if args[0] == pygame.K_LEFT:
-                self.rect = self.rect.move(64, 0)
-            if args[0] == pygame.K_RIGHT:
-                self.rect = self.rect.move(-64, 0)
+        for sprite in walls_group:
+            if pygame.sprite.collide_mask(self, sprite):
+                if args[0] == pygame.K_UP:
+                    self.rect = self.rect.move(0, 64)
+                if args[0] == pygame.K_DOWN:
+                    self.rect = self.rect.move(0, -64)
+                if args[0] == pygame.K_LEFT:
+                    self.rect = self.rect.move(64, 0)
+                if args[0] == pygame.K_RIGHT:
+                    self.rect = self.rect.move(-64, 0)

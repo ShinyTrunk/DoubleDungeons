@@ -1,8 +1,6 @@
 import pygame
 
-# from camera import YSortCameraGroup
-
-# all_sprites = YSortCameraGroup()
+walls_group = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 tiles_group = pygame.sprite.Group()
 box_group = pygame.sprite.Group()

@@ -12,14 +12,14 @@ screen = pygame.display.set_mode(SIZE)
 pygame.display.set_caption('Double Dungeons')
 start_screen(screen)
 
-set_tiled_map('level1_map')
+set_tiled_map('level1_map_2')
 player, level_x, level_y = generate_level(load_level('map/map.txt'))
 
 camera = Camera()
 clock = pygame.time.Clock()
 
 
-def main(screen):
+def main():
     running = True
     while running:
         player_group.sprites()[0].update_anim()
@@ -30,16 +30,18 @@ def main(screen):
                 running = False
             if event.type == pygame.KEYDOWN:
                 player.update(event.key)
+
         camera.update(player)
-        screen.fill((0, 0, 0))
         # обновляем положение всех спрайтов
         for sprite in all_sprites:
             camera.apply(sprite)
+        screen.fill((0, 0, 0))
         all_sprites.draw(screen)
         pygame.display.flip()
         clock.tick(FPS)
 
 
 if __name__ == "__main__":
-    main(screen)
+    main()
+    print(walls_group)
     terminate()
