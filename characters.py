@@ -1,10 +1,6 @@
 import pygame
 from sprite_groups import box_group, player_group, all_sprites
-
-# box_group = pygame.sprite.Group()
-# player_group = pygame.sprite.Group()
-# all_sprites = pygame.sprite.Group()
-tile_width = tile_height = 50
+from settings import TILE_WIDTH, TILE_HEIGHT
 player = None
 
 
@@ -38,7 +34,7 @@ class Enemy(AnimatedSprite):
         # self.image = enemy1_image
         # self.first_line = first_line
         self.rect = self.image.get_rect().move(
-            tile_width * pos_x + 5, tile_height * pos_y + 5)
+            TILE_WIDTH * pos_x + 5, TILE_HEIGHT * pos_y + 5)
 
 
 class Player(AnimatedSprite):
@@ -48,24 +44,24 @@ class Player(AnimatedSprite):
         # self.image = player_imag
         print(sprite_group)
         self.rect = self.image.get_rect().move(
-            tile_width * pos_x + 5, tile_height * pos_y + 5)
+            TILE_WIDTH * pos_x + 5, TILE_HEIGHT * pos_y + 5)
 
     def update(self, *args, **kwargs):
         if args:
             if args[0] == pygame.K_UP:
-                self.rect = self.rect.move(0, -50)
+                self.rect = self.rect.move(0, -64)
             if args[0] == pygame.K_DOWN:
-                self.rect = self.rect.move(0, 50)
+                self.rect = self.rect.move(0, 64)
             if args[0] == pygame.K_LEFT:
-                self.rect = self.rect.move(-50, 0)
+                self.rect = self.rect.move(-64, 0)
             if args[0] == pygame.K_RIGHT:
-                self.rect = self.rect.move(50, 0)
+                self.rect = self.rect.move(64, 0)
         if pygame.sprite.spritecollide(self, box_group, False):
             if args[0] == pygame.K_UP:
-                self.rect = self.rect.move(0, 50)
+                self.rect = self.rect.move(0, 64)
             if args[0] == pygame.K_DOWN:
-                self.rect = self.rect.move(0, -50)
+                self.rect = self.rect.move(0, -64)
             if args[0] == pygame.K_LEFT:
-                self.rect = self.rect.move(50, 0)
+                self.rect = self.rect.move(64, 0)
             if args[0] == pygame.K_RIGHT:
-                self.rect = self.rect.move(-50, 0)
+                self.rect = self.rect.move(-64, 0)
