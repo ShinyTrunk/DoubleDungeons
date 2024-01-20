@@ -6,8 +6,8 @@ from secondary_functions import load_image, terminate
 
 def start_screen(screen):
     intro_text = []
-    fon = pygame.transform.scale(load_image('startscreens\startscreen_background_light.png'), (WIDTH, HEIGHT))
-    screen.blit(fon, (0, 0))
+    background = pygame.transform.scale(load_image('startscreens\startscreen_background_light.png'), (WIDTH, HEIGHT))
+    screen.blit(background, (0, 0))
     font = pygame.font.Font(None, 30)
     text_coord = 50
     for line in intro_text:

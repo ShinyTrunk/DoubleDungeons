@@ -6,7 +6,7 @@ import pytmx
 
 from settings import TILE_WIDTH, TILE_HEIGHT
 from surface_to_sprite_transformer import Card
-from sprite_groups import walls_group
+from sprite_groups import walls_group, chests_group
 
 
 def load_image(name):
@@ -43,5 +43,7 @@ def set_tiled_map(filename):
             if tile is not None:
                 if layer.name == "Walls":
                     Card(tile, x * TILE_WIDTH, y * TILE_HEIGHT, walls_group)
+                elif layer.name == "Chests":
+                    Card(tile, x * TILE_WIDTH, y * TILE_HEIGHT, chests_group)
                 else:
                     Card(tile, x * TILE_WIDTH, y * TILE_HEIGHT)

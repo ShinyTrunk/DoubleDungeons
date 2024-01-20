@@ -18,15 +18,13 @@ def generate_level(level):
                 enemy_list.append([x, y])
     for i in range(len(enemy_list)):
         if i % 2 == 0:
-            enemy_group.add(
-                Enemy(enemy_group, enemy_list[i][0], enemy_list[i][1],
-                      load_image("animated_sprites\\thief_animated_sprite_64x64.png"), 8,
-                      5, 120, 80, 0, 8))
+            Enemy(enemy_group, enemy_list[i][0], enemy_list[i][1],
+                  load_image("animated_sprites\\anomaly_animated_sprite_64x64.png"), 7,
+                  5, 120, 80, 0, 6)
         if i % 2 != 0:
-            enemy_group.add(
-                Enemy(enemy_group, enemy_list[i][0], enemy_list[i][1],
-                      load_image("animated_sprites\\anomaly_animated_sprite_64x64.png"), 7,
-                      5, 120, 80, 0, 6))
+            Enemy(enemy_group, enemy_list[i][0], enemy_list[i][1],
+                  load_image("animated_sprites\\thief_animated_sprite_64x64.png"), 8,
+                  5, 120, 80, 0, 8)
     new_player = Player(player_group, px, py,
                         load_image("animated_sprites\\knight_animated_sprite_64x64.png"), 14,
                         7, 120, 80, 0, 7)
