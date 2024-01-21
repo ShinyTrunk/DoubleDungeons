@@ -102,7 +102,7 @@ class Enemy(AnimatedSprite):
         temp_rect.x = x
         temp_rect.y = y
         for wall in walls_group:
-            if pygame.sprite.collide_rect(self, wall):
+            if temp_rect.colliderect(wall):
                 return True
         return False
 
@@ -146,7 +146,7 @@ class Player(AnimatedSprite):
             for i in enemy_group:
                 print(i.rect.x, i.rect.y)
         for wall in walls_group:
-            if temp_rect.colliderect(wall.rect):
+            if pygame.sprite.collide_mask(self, wall):
                 if args[0] == pygame.K_UP:
                     self.rect = self.rect.move(0, 64)
                 if args[0] == pygame.K_DOWN:
