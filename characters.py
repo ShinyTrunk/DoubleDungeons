@@ -45,30 +45,43 @@ class Enemy(AnimatedSprite):
     def set_target_player(self, player):
         self.target_player = player
 
-    def update(self):
-        if self.target_player:
-            player_rect = self.target_player.rect
-            dx = player_rect.x - self.rect.x
-            dy = player_rect.y - self.rect.y
+    def update(self, *args):
+        if args[0] == pygame.K_UP or args[0] == pygame.K_DOWN or args[0] == pygame.K_LEFT or args[0] == pygame.K_RIGHT:
+            if self.target_player:
+                player_rect = self.target_player.rect
+                dx = player_rect.x - self.rect.x
+                dy = player_rect.y - self.rect.y
 
-            if abs(dx) > abs(dy):
-                if dx > 0:
-                    new_x = self.rect.x + self.speed
-                    if not self.check_collision(new_x, self.rect.y):
-                        self.rect.x = new_x
-                elif dx < 0:
-                    new_x = self.rect.x - self.speed
-                    if not self.check_collision(new_x, self.rect.y):
-                        self.rect.x = new_x
-            else:
-                if dy > 0:
-                    new_y = self.rect.y + self.speed
-                    if not self.check_collision(self.rect.x, new_y):
-                        self.rect.y = new_y
-                elif dy < 0:
-                    new_y = self.rect.y - self.speed
-                    if not self.check_collision(self.rect.x, new_y):
-                        self.rect.y = new_y
+                if abs(dx) > abs(dy):
+                    if dx > 0:
+                        new_x = self.rect.x + self.speed
+                        if not self.check_collision(new_x, self.rect.y):
+                            self.rect.x = new_x
+                    elif dx < 0:
+                        new_x = self.rect.x - self.speed
+                        if not self.check_collision(new_x, self.rect.y):
+                            self.rect.x = new_x
+                else:
+                    if dy > 0:
+                        new_y = self.rect.y + self.speed
+                        if not self.check_collision(self.rect.x, new_y):
+                            self.rect.y = new_y
+                    elif dy < 0:
+                        new_y = self.rect.y - self.speed
+                        if not self.check_collision(self.rect.x, new_y):
+                            self.rect.y = new_y
+    #    for player in player_group:
+    #        print('.')
+    #        if player.rect.x != self.rect.x and player.rect.y == self.rect.y:
+    #            print(player.rect.x, self.rect.y)
+    #            print('!')
+    #            if pygame.sprite.collide_rect(self, player):
+    #                player.hp -= self.damage
+    #                print(f"player_hp = {player.hp}, enemy_hp = {self.hp}")
+      #      if enemy.hp <= 0:
+      #          enemy.remove((enemy_group, all_sprites))
+       #     if self.hp <= 0:
+       #         print("death")
 
     def check_collision(self, x, y):
         temp_rect = self.rect.copy()
@@ -92,17 +105,33 @@ class Player(AnimatedSprite):
         self.looted_chests = 0
         self.hp = 20
         self.damage = 5
+        self.old_pos_x = self.rect.x
+        self.old_pos_y = self.rect.y
+
 
     def update(self, *args, **kwargs):
+        self.old_pos_x = self.rect.x
+        self.old_pos_y = self.rect.y
         if args:
             if args[0] == pygame.K_UP:
                 self.rect = self.rect.move(0, -64)
+                self.old_pos_y += 64
             if args[0] == pygame.K_DOWN:
                 self.rect = self.rect.move(0, 64)
+
+                self.old_pos_y -= 64
             if args[0] == pygame.K_LEFT:
                 self.rect = self.rect.move(-64, 0)
+
+                self.old_pos_x += 64
+
             if args[0] == pygame.K_RIGHT:
                 self.rect = self.rect.move(64, 0)
+                self.old_pos_x -= 64
+            print(f"old_x = {self.old_pos_x}, new_x = {self.rect.x}")
+            print(f"old_y = {self.old_pos_y}, new_y = {self.rect.y}")
+            for i in enemy_group:
+                print(i.rect.x, i.rect.y)
         for wall in walls_group:
             if pygame.sprite.collide_mask(self, wall):
                 if args[0] == pygame.K_UP:
@@ -124,6 +153,11 @@ class Player(AnimatedSprite):
                 self.hp -= enemy.damage
                 enemy.hp -= self.damage
                 print(f"player_hp = {self.hp}, enemy_hp = {enemy.hp}")
+            elif self.old_pos_x == enemy.rect.x and (self.old_pos_y == enemy.rect.y):
+                print(self.old_pos_x, enemy.rect.x)
+                print(self.old_pos_y, enemy.rect.y)
+                self.hp -= enemy.damage
+                print('враг сзади')
             if enemy.hp <= 0:
                 enemy.remove((enemy_group, all_sprites))
             if self.hp <= 0:

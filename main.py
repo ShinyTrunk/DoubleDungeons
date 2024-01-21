@@ -35,10 +35,11 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
+
                 player.update(event.key)
                 for sprite in enemy_group:
                     sprite.set_target_player(player)
-                    sprite.update()
+                    sprite.update(event.key)
         camera.update(player)
         for sprite in all_sprites:
             camera.apply(sprite)
