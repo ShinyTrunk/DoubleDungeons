@@ -102,7 +102,7 @@ class Enemy(AnimatedSprite):
         temp_rect.x = x
         temp_rect.y = y
         for wall in walls_group:
-            if temp_rect.colliderect(wall):
+            if temp_rect.colliderect(wall.rect):
                 return True
         return False
 
