@@ -34,7 +34,7 @@ class Enemy(AnimatedSprite):
     def __init__(self, sprite_group, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
         super().__init__(sprite_group, sheet, columns, rows, x, y, animation, length)
         self.mask = pygame.mask.from_surface(self.image)
-        cropped_rect = pygame.Rect(28, 8, self.image.get_width() - 56, self.image.get_height() - 16)
+        cropped_rect = pygame.Rect(36, 16, self.image.get_width() - 72, self.image.get_height() - 32)
         self.cropped_image = self.image.subsurface(cropped_rect)
         self.target_player = None
         self.speed = 64
@@ -71,6 +71,16 @@ class Enemy(AnimatedSprite):
                         new_y = self.rect.y - self.speed
                         if not self.check_collision(self.rect.x, new_y):
                             self.rect.y = new_y
+            for player in player_group:
+                if pygame.sprite.collide_mask(self, player):
+                    if args[0] == pygame.K_UP:
+                        self.rect = self.rect.move(0, -64)
+                    if args[0] == pygame.K_DOWN:
+                        self.rect = self.rect.move(0, 64)
+                    if args[0] == pygame.K_LEFT:
+                        self.rect = self.rect.move(-64, 0)
+                    if args[0] == pygame.K_RIGHT:
+                        self.rect = self.rect.move(64, 0)
 
     #    for player in player_group:
     #        print('.')
@@ -100,7 +110,7 @@ class Player(AnimatedSprite):
     def __init__(self, sprite_group, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
         super().__init__(sprite_group, sheet, columns, rows, x, y, animation, length)
         self.mask = pygame.mask.from_surface(self.image)
-        cropped_rect = pygame.Rect(28, 8, self.image.get_width() - 56, self.image.get_height() - 16)
+        cropped_rect = pygame.Rect(36, 16, self.image.get_width() - 72, self.image.get_height() - 32)
         self.cropped_image = self.image.subsurface(cropped_rect)
         self.rect = self.cropped_image.get_rect().move(
             TILE_WIDTH * pos_x + 36, TILE_HEIGHT * pos_y + 32)
@@ -162,7 +172,7 @@ class Player(AnimatedSprite):
                     self.hp -= enemy.damage
                     enemy.hp -= self.damage
                 print(f"player_hp = {self.hp}, enemy_hp = {enemy.hp}")
-            elif self.old_pos_x == enemy.rect.x and (self.old_pos_y == enemy.rect.y):
+            if self.old_pos_x == enemy.rect.x and self.old_pos_y == enemy.rect.y:
                 print(self.old_pos_x, enemy.rect.x)
                 print(self.old_pos_y, enemy.rect.y)
                 self.hp -= enemy.damage

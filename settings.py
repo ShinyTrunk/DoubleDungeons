@@ -7,5 +7,5 @@ BLUE = pygame.Color("blue")
 BLACK = pygame.Color("black")
 WHITE = pygame.Color("white")
 SIZE = WIDTH, HEIGHT = (800, 550)
-FPS = 15
+FPS = 10
 TILE_SIZE = TILE_WIDTH = TILE_HEIGHT = 64
