@@ -100,7 +100,7 @@ class Enemy(AnimatedSprite):
         temp_rect.x = x
         temp_rect.y = y
         for wall in walls_group:
-            if pygame.sprite.collide_mask(self, wall):
+            if pygame.sprite.collide_rect(self, wall):
                 return True
             return False
 
@@ -158,6 +158,7 @@ class Player(AnimatedSprite):
             if pygame.sprite.collide_mask(self, chest):
                 chest.remove((chests_group, all_sprites))
                 self.looted_chests += 1
+                self.damage += 1
                 print(self.looted_chests)
         for potion in potions_group:
             if pygame.sprite.collide_mask(self, potion):

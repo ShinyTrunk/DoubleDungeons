@@ -19,6 +19,11 @@ def load_image(name):
     return image
 
 
+def set_music(name):
+    pygame.mixer.music.load(f"data/sounds/{name}.mp3")
+    pygame.mixer.music.play(-1)
+
+
 def terminate():
     pygame.quit()
     sys.exit()

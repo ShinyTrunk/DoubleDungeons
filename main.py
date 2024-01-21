@@ -4,7 +4,7 @@ import pygame.image
 
 from camera import Camera
 from player_interface import show_interface
-from secondary_functions import load_level, set_tiled_map, scale_image
+from secondary_functions import load_level, set_tiled_map, scale_image, set_music
 from sprite_groups import *
 from start_screen import *
 from settings import *
@@ -21,7 +21,7 @@ player, level_x, level_y = generate_level(load_level('map/map.txt'))
 
 camera = Camera()
 clock = pygame.time.Clock()
-
+set_music('sound')
 
 def main():
     # scale_image("thief_animated_sprite_16x16.png", 2.606, 2.606, "data/animated_sprites", "thief_animated_sprite_48x48.png")
