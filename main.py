@@ -35,9 +35,7 @@ def main():
                 for sprite in enemy_group:
                     sprite.set_target_player(player)
                     sprite.update()
-
         camera.update(player)
-        # обновляем положение всех спрайтов
         for sprite in all_sprites:
             camera.apply(sprite)
         all_sprites.draw(screen)

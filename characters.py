@@ -2,7 +2,7 @@ import pygame
 from sprite_groups import player_group, all_sprites, walls_group, chests_group, enemy_group
 from settings import TILE_WIDTH, TILE_HEIGHT, WIDTH, HEIGHT
 
-player = None
+# player = None
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
@@ -120,7 +120,7 @@ class Player(AnimatedSprite):
                 self.looted_chests += 1
                 print(self.looted_chests)
         for enemy in enemy_group:
-            if pygame.sprite.collide_mask(self, enemy):
+            if pygame.sprite.collide_rect(self, enemy):
                 self.hp -= enemy.damage
                 enemy.hp -= self.damage
                 print(f"player_hp = {self.hp}, enemy_hp = {enemy.hp}")
