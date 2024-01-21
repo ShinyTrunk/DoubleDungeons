@@ -61,3 +61,19 @@ def scale_image(filename, x_scale, y_scale, final_directory, final_filename):
     transformed_img = pygame.transform.scale(original_img, (original_img.get_width() * x_scale,
                                                             original_img.get_height() * y_scale))
     pygame.image.save(transformed_img, os.path.join(final_directory, final_filename))
+
+
+def change_level(filename):
+    set_tiled_map(filename)
+
+
+def save_progress(hp, damage, looted_chests, x, y):
+    with open("data/saves/player_saves", "w") as file:
+        file.write(f"{hp} {damage} {looted_chests} {x} {y}")
+
+
+def load_progress():
+    with open("data/saves/player_saves", "r") as file:
+        save = file.read().split()
+        progress = {'hp': save[0], 'damage': save[1], 'looted_chests': save[2], 'x': save[3], 'y': save[4]}
+    return progress

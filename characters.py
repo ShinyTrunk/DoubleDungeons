@@ -1,4 +1,6 @@
 import pygame
+
+from secondary_functions import change_level, load_level
 from sprite_groups import player_group, all_sprites, walls_group, chests_group, enemy_group, potions_group
 from settings import TILE_WIDTH, TILE_HEIGHT, WIDTH, HEIGHT
 
@@ -29,7 +31,6 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def update_anim(self):
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.image = self.frames[self.cur_frame]
-
 
 
 class Enemy(AnimatedSprite):
@@ -109,7 +110,7 @@ class Enemy(AnimatedSprite):
 
 class Player(AnimatedSprite):
 
-    def __init__(self, sprite_group, pos_x, pos_y, sheet, columns, rows, x, y, animation, length):
+    def __init__(self, sprite_group, pos_x, pos_y, sheet, columns, rows, x, y, animation, length, hp=20, damage=5):
         super().__init__(sprite_group, sheet, columns, rows, x, y, animation, length)
         self.mask = pygame.mask.from_surface(self.image)
         cropped_rect = pygame.Rect(36, 16, self.image.get_width() - 72, self.image.get_height() - 32)
@@ -117,8 +118,8 @@ class Player(AnimatedSprite):
         self.rect = self.cropped_image.get_rect().move(
             TILE_WIDTH * pos_x + 36, TILE_HEIGHT * pos_y + 32)
         self.looted_chests = 0
-        self.hp = 20
-        self.damage = 5
+        self.hp = hp
+        self.damage = damage
         self.old_pos_x = self.rect.x
         self.old_pos_y = self.rect.y
 
@@ -188,4 +189,7 @@ class Player(AnimatedSprite):
             if enemy.hp <= 0:
                 enemy.remove((enemy_group, all_sprites))
             if self.hp <= 0:
+                # self.remove((player_group, all_sprites))
                 print("death")
+                # all_sprites.sprites().clear()
+                # change_level("level2_map")
