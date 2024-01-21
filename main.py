@@ -24,7 +24,7 @@ clock = pygame.time.Clock()
 
 
 def main():
-    scale_image("thief_animated_sprite_16x16.png", 2.606, 2.606, "data/animated_sprites", "thief_animated_sprite_48x48.png")
+    # scale_image("thief_animated_sprite_16x16.png", 2.606, 2.606, "data/animated_sprites", "thief_animated_sprite_48x48.png")
     running = True
     while running:
         screen.fill((0, 0, 0))

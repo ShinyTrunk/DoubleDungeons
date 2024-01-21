@@ -1,6 +1,7 @@
 import pygame
-from sprite_groups import player_group, all_sprites, walls_group, chests_group, enemy_group
+from sprite_groups import player_group, all_sprites, walls_group, chests_group, enemy_group, potions_group
 from settings import TILE_WIDTH, TILE_HEIGHT, WIDTH, HEIGHT
+
 
 # player = None
 
@@ -70,6 +71,7 @@ class Enemy(AnimatedSprite):
                         new_y = self.rect.y - self.speed
                         if not self.check_collision(self.rect.x, new_y):
                             self.rect.y = new_y
+
     #    for player in player_group:
     #        print('.')
     #        if player.rect.x != self.rect.x and player.rect.y == self.rect.y:
@@ -78,10 +80,10 @@ class Enemy(AnimatedSprite):
     #            if pygame.sprite.collide_rect(self, player):
     #                player.hp -= self.damage
     #                print(f"player_hp = {player.hp}, enemy_hp = {self.hp}")
-      #      if enemy.hp <= 0:
-      #          enemy.remove((enemy_group, all_sprites))
-       #     if self.hp <= 0:
-       #         print("death")
+    #      if enemy.hp <= 0:
+    #          enemy.remove((enemy_group, all_sprites))
+    #     if self.hp <= 0:
+    #         print("death")
 
     def check_collision(self, x, y):
         temp_rect = self.rect.copy()
@@ -107,7 +109,6 @@ class Player(AnimatedSprite):
         self.damage = 5
         self.old_pos_x = self.rect.x
         self.old_pos_y = self.rect.y
-
 
     def update(self, *args, **kwargs):
         self.old_pos_x = self.rect.x
@@ -148,10 +149,18 @@ class Player(AnimatedSprite):
                 chest.remove((chests_group, all_sprites))
                 self.looted_chests += 1
                 print(self.looted_chests)
+        for potion in potions_group:
+            if pygame.sprite.collide_mask(self, potion):
+                potion.remove((potions_group, all_sprites))
+                self.hp += 5
+                # print(self.looted_chests)
         for enemy in enemy_group:
             if pygame.sprite.collide_rect(self, enemy):
-                self.hp -= enemy.damage
-                enemy.hp -= self.damage
+                if enemy.hp - self.damage <= 0:
+                    enemy.hp -= self.damage
+                else:
+                    self.hp -= enemy.damage
+                    enemy.hp -= self.damage
                 print(f"player_hp = {self.hp}, enemy_hp = {enemy.hp}")
             elif self.old_pos_x == enemy.rect.x and (self.old_pos_y == enemy.rect.y):
                 print(self.old_pos_x, enemy.rect.x)
