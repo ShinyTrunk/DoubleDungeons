@@ -10,6 +10,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, sprite_group, sheet, columns, rows, x, y, animation, length):
         super().__init__(all_sprites, sprite_group)
         self.frames = []
+        self.sheet = sheet
         self.animation = animation
         self.length = length
         self.cut_sheet(sheet, columns, rows, self.animation, self.length)
@@ -28,6 +29,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def update_anim(self):
         self.cur_frame = (self.cur_frame + 1) % len(self.frames)
         self.image = self.frames[self.cur_frame]
+
 
 
 class Enemy(AnimatedSprite):
@@ -102,7 +104,7 @@ class Enemy(AnimatedSprite):
         for wall in walls_group:
             if pygame.sprite.collide_rect(self, wall):
                 return True
-            return False
+        return False
 
 
 class Player(AnimatedSprite):
@@ -144,7 +146,7 @@ class Player(AnimatedSprite):
             for i in enemy_group:
                 print(i.rect.x, i.rect.y)
         for wall in walls_group:
-            if pygame.sprite.collide_mask(self, wall):
+            if temp_rect.colliderect(wall.rect):
                 if args[0] == pygame.K_UP:
                     self.rect = self.rect.move(0, 64)
                 if args[0] == pygame.K_DOWN:
@@ -154,7 +156,6 @@ class Player(AnimatedSprite):
                 if args[0] == pygame.K_RIGHT:
                     self.rect = self.rect.move(-64, 0)
         for chest in chests_group:
-            # print(chests_group)
             if pygame.sprite.collide_mask(self, chest):
                 chest.remove((chests_group, all_sprites))
                 self.looted_chests += 1
@@ -172,6 +173,12 @@ class Player(AnimatedSprite):
                 else:
                     self.hp -= enemy.damage
                     enemy.hp -= self.damage
+                # self.animation = 4
+                # self.length = 5
+                # self.frames = []
+                # self.cut_sheet(self.sheet, 14, 7, 4, 5)
+                # for i in range(5):
+                #     self.update_anim()
                 print(f"player_hp = {self.hp}, enemy_hp = {enemy.hp}")
             if self.old_pos_x == enemy.rect.x and self.old_pos_y == enemy.rect.y:
                 print(self.old_pos_x, enemy.rect.x)
