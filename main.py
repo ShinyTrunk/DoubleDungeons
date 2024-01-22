@@ -27,7 +27,7 @@ pl = player
 
 
 def main():
-    # scale_image("thief_animated_sprite_16x16.png", 2.606, 2.606, "data/animated_sprites", "thief_animated_sprite_48x48.png")
+    scale_image("death_Screen.png", 0.667, 0.742, "data/death_screens", "death_screen.png")
     global pl
     running = True
     while running:

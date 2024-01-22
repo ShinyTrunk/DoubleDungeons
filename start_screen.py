@@ -6,7 +6,7 @@ from secondary_functions import load_image, terminate
 
 def start_screen(screen):
     intro_text = []
-    background = pygame.transform.scale(load_image('startscreens\startscreen_background_light.png'), (WIDTH, HEIGHT))
+    background = pygame.transform.scale(load_image('startscreens\\startscreen_background_light.png'), (WIDTH, HEIGHT))
     screen.blit(background, (0, 0))
     while True:
         for event in pygame.event.get():
