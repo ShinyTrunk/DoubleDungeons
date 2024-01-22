@@ -1,6 +1,5 @@
 import pygame
 
-from death_screen import death_screen
 from secondary_functions import change_level, load_level
 from sprite_groups import player_group, all_sprites, walls_group, chests_group, enemy_group, potions_group
 from settings import TILE_WIDTH, TILE_HEIGHT, WIDTH, HEIGHT
@@ -119,6 +118,7 @@ class Player(AnimatedSprite):
         self.rect = self.cropped_image.get_rect().move(
             TILE_WIDTH * pos_x + 36, TILE_HEIGHT * pos_y + 32)
         self.looted_chests = 0
+        self.defeated_enemies = 0
         self.hp = hp
         self.damage = damage
         self.old_pos_x = self.rect.x
@@ -162,7 +162,7 @@ class Player(AnimatedSprite):
                 chest.remove((chests_group, all_sprites))
                 self.looted_chests += 1
                 self.damage += 1
-                print(self.looted_chests)
+                # print(self.looted_chests)
         for potion in potions_group:
             if pygame.sprite.collide_mask(self, potion):
                 potion.remove((potions_group, all_sprites))
@@ -181,14 +181,15 @@ class Player(AnimatedSprite):
                 # self.cut_sheet(self.sheet, 14, 7, 4, 5)
                 # for i in range(5):
                 #     self.update_anim()
-                print(f"player_hp = {self.hp}, enemy_hp = {enemy.hp}")
+                # print(f"player_hp = {self.hp}, enemy_hp = {enemy.hp}")
             if self.old_pos_x == enemy.rect.x and self.old_pos_y == enemy.rect.y:
-                print(self.old_pos_x, enemy.rect.x)
-                print(self.old_pos_y, enemy.rect.y)
+                # print(self.old_pos_x, enemy.rect.x)
+                # print(self.old_pos_y, enemy.rect.y)
                 self.hp -= enemy.damage
                 print('враг сзади')
             if enemy.hp <= 0:
                 enemy.remove((enemy_group, all_sprites))
+                self.defeated_enemies += 1
             if self.hp <= 0:
                 # self.remove((player_group, all_sprites))
                 print("death")

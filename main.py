@@ -23,12 +23,12 @@ player, level_x, level_y = generate_level(load_level('map/map.txt'))
 player_obj = player_group.sprites()[0]
 camera = Camera()
 clock = pygame.time.Clock()
-set_music('sound')
+set_music('dark_fantasy_background_music')
 pl = player
 
 
 def main():
-    scale_image("death_Screen.png", 0.667, 0.742, "data/death_screens", "death_screen.png")
+    # scale_image("death_Screen.png", 0.667, 0.742, "data/death_screens", "death_screen.png")
     global pl
     running = True
     while running:
@@ -45,6 +45,7 @@ def main():
             change_level("level2_map")
             all_sprites.draw(screen)
         if player.hp <= 0:
+            pygame.mixer.music.stop()
             death_screen(screen)
         player_group.sprites()[0].update_anim()
         for sprite in enemy_group.sprites():
