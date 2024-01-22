@@ -23,10 +23,12 @@ player_obj = player_group.sprites()[0]
 camera = Camera()
 clock = pygame.time.Clock()
 set_music('sound')
+pl = player
 
 
 def main():
     # scale_image("thief_animated_sprite_16x16.png", 2.606, 2.606, "data/animated_sprites", "thief_animated_sprite_48x48.png")
+    global pl
     running = True
     while running:
         screen.fill((0, 0, 0))
@@ -38,7 +40,9 @@ def main():
                 sprite.remove(all_sprites)
             player_obj.remove(player_group)
             player1, level_x, level_y = generate_level(load_level('map/map.txt'))
+            pl = player1
             change_level("level2_map")
+            all_sprites.draw(screen)
         player_group.sprites()[0].update_anim()
         for sprite in enemy_group.sprites():
             sprite.update_anim()
@@ -50,7 +54,7 @@ def main():
                 for sprite in enemy_group:
                     sprite.set_target_player(player)
                     sprite.update(event.key)
-        camera.update(player)
+        camera.update(pl)
         for sprite in all_sprites:
             camera.apply(sprite)
         all_sprites.draw(screen)
