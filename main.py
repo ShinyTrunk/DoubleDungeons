@@ -11,12 +11,13 @@ from sprite_groups import *
 from start_screen import *
 from settings import *
 from level import *
+import flags
 
 pygame.init()
 screen = pygame.display.set_mode(SIZE)
 
 pygame.display.set_caption('Double Dungeons')
-start_screen(screen)
+#start_screen(screen)
 
 set_tiled_map('level1_map_2')
 player, level_x, level_y = generate_level(load_level('map/map.txt'))
@@ -31,12 +32,12 @@ def main():
     # scale_image("death_Screen.png", 0.667, 0.742, "data/death_screens", "death_screen.png")
     global pl
     running = True
+
     while running:
         screen.fill((0, 0, 0))
         if len(enemy_group.sprites()) == 0:
             save_progress(player_obj.hp, player_obj.damage, player_obj.looted_chests, player_obj.rect.x, player_obj.rect.y)
             print(load_progress())
-            print("piska")
             for sprite in all_sprites:
                 sprite.remove(all_sprites)
             player_obj.remove(player_group)
@@ -46,7 +47,10 @@ def main():
             all_sprites.draw(screen)
         if player.hp <= 0:
             pygame.mixer.music.stop()
-            death_screen(screen)
+            flags.flag_death = True
+            flags.flag_main = False
+
+ #           death_screen(screen)
         player_group.sprites()[0].update_anim()
         for sprite in enemy_group.sprites():
             sprite.update_anim()
@@ -69,5 +73,13 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    while True:
+        if flags.flag_main:
+            main()
+        elif flags.flag_start:
+            start_screen(screen)
+        elif flags.flag_death:
+            death_screen(screen)
     terminate()
+
+

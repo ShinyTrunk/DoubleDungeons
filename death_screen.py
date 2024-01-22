@@ -3,6 +3,7 @@ import pygame
 from settings import WIDTH, HEIGHT
 from secondary_functions import load_image, terminate, set_music
 from sprite_groups import player_group
+import flags
 from start_screen import start_screen
 
 pygame.font.init()
@@ -40,5 +41,7 @@ def death_screen(screen):
             if event.type == pygame.QUIT:
                 terminate()
             elif button.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-                start_screen(screen)
+                flags.flag_start = True
+                flags.flag_death = False
+  #              start_screen(screen)
         pygame.display.flip()

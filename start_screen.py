@@ -1,5 +1,6 @@
 import pygame
 
+import flags
 from settings import WIDTH, HEIGHT
 from secondary_functions import load_image, terminate
 
@@ -14,5 +15,6 @@ def start_screen(screen):
             if event.type == pygame.QUIT:
                 terminate()
             elif event.type == pygame.MOUSEBUTTONDOWN and 287 < pos[0] < 498 and 402 < pos[1] < 462:
-                return
+                flags.flag_start = False
+                flags.flag_main = True
         pygame.display.flip()
