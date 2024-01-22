@@ -3,6 +3,7 @@ import os
 import pygame.image
 
 from camera import Camera
+from death_screen import death_screen
 from player_interface import show_interface
 from secondary_functions import load_level, set_tiled_map, scale_image, set_music, change_level, save_progress, \
     load_progress
@@ -43,6 +44,8 @@ def main():
             pl = player1
             change_level("level2_map")
             all_sprites.draw(screen)
+        if player.hp <= 0:
+            death_screen(screen)
         player_group.sprites()[0].update_anim()
         for sprite in enemy_group.sprites():
             sprite.update_anim()

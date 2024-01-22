@@ -1,5 +1,6 @@
 import pygame
 
+from death_screen import death_screen
 from secondary_functions import change_level, load_level
 from sprite_groups import player_group, all_sprites, walls_group, chests_group, enemy_group, potions_group
 from settings import TILE_WIDTH, TILE_HEIGHT, WIDTH, HEIGHT
