@@ -13,7 +13,7 @@ from source.sprites.sprite_groups.sprite_groups import player_group, enemy_group
 
 def game_screen(screen, level_number, camera, clock, player_hp):
     set_tiled_map(f'level{level_number}_map')
-    player, level_x, level_y = generate_level(load_level('map/map.txt'), player_hp)
+    player, level_x, level_y = generate_level(load_level(f'map/map{level_number}.txt'), player_hp)
     while state["game_screen"]:
         screen.fill((0, 0, 0))
         if len(enemy_group.sprites()) == 0:
