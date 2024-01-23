@@ -6,6 +6,7 @@ import pytmx
 
 from settings import TILE_WIDTH, TILE_HEIGHT
 from surface_to_sprite_transformer import Card
+import sprite_groups
 from sprite_groups import walls_group, chests_group, potions_group
 
 
@@ -22,7 +23,6 @@ def load_image(name):
 def set_music(name, play=-1):
     pygame.mixer.music.load(f"data/sounds/{name}.mp3")
     pygame.mixer.music.play(play)
-
 
 
 def terminate():
@@ -68,13 +68,26 @@ def change_level(filename):
     set_tiled_map(filename)
 
 
-def save_progress(hp, damage, looted_chests, x, y):
+def save_progress(hp, damage, looted_chests, enemies_defeated):
     with open("data/saves/player_saves", "w") as file:
-        file.write(f"{hp} {damage} {looted_chests} {x} {y}")
+        file.write(f"{hp} {damage} {looted_chests} {enemies_defeated}")
 
 
 def load_progress():
     with open("data/saves/player_saves", "r") as file:
         save = file.read().split()
-        progress = {'hp': save[0], 'damage': save[1], 'looted_chests': save[2], 'x': save[3], 'y': save[4]}
+        progress = {'hp': save[0], 'damage': save[1], 'looted_chests': save[2], 'enemies_defeated': save[3]}
     return progress
+
+
+def remove_all_sprites_groups():
+    try:
+        sprite_groups.all_sprites.remove(sprite_groups.all_sprites)
+        sprite_groups.chests_group.remove(sprite_groups.chests_group)
+        sprite_groups.potions_group.remove(sprite_groups.potions_group)
+        sprite_groups.player_group.remove(sprite_groups.player_group)
+        sprite_groups.enemy_group.remove(sprite_groups.enemy_group)
+        sprite_groups.floor_tiles_group.remove(sprite_groups.floor_tiles_group)
+        sprite_groups.walls_group.remove(sprite_groups.walls_group)
+    except Exception as error:
+        return error

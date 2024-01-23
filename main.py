@@ -6,66 +6,48 @@ from camera import Camera
 from death_screen import death_screen
 from player_interface import show_interface
 from secondary_functions import load_level, set_tiled_map, scale_image, set_music, change_level, save_progress, \
-    load_progress
+    load_progress, remove_all_sprites_groups
 from sprite_groups import *
 from start_screen import *
 from settings import *
 from level import *
-import flags
+from flags import flags
 
 pygame.init()
 screen = pygame.display.set_mode(SIZE)
 
 pygame.display.set_caption('Double Dungeons')
-start_screen(screen)
 
-set_tiled_map('level1_map_2')
-player, level_x, level_y = generate_level(load_level('map/map.txt'))
-player_obj = player_group.sprites()[0]
 camera = Camera()
 clock = pygame.time.Clock()
 
-pl = player
 
-
-def main():
-    set_music('dark_fantasy_background_music')
-    # scale_image("death_Screen.png", 0.667, 0.742, "data/death_screens", "death_screen.png")
-    global pl
-    running = True
-
-    while running:
+def game_screen(screen, level_number) -> str:
+    set_tiled_map(f'level{level_number}_map')
+    player, level_x, level_y = generate_level(load_level('map/map.txt'))
+    while flags["game_screen"]:
         screen.fill((0, 0, 0))
         if len(enemy_group.sprites()) == 0:
-            save_progress(player_obj.hp, player_obj.damage, player_obj.looted_chests, player_obj.rect.x,
-                          player_obj.rect.y)
-            print(load_progress())
-            for sprite in all_sprites:
-                sprite.remove(all_sprites)
-            player_obj.remove(player_group)
-            player1, level_x, level_y = generate_level(load_level('map/map.txt'))
-            pl = player1
-            change_level("level2_map")
-            all_sprites.draw(screen)
+            save_progress(player.hp, player.damage, player.looted_chests, player.defeated_enemies)
+            return "live"
         if player.hp <= 0:
             pygame.mixer.music.stop()
-            death_screen(screen)
-            # flags.flag_death = True
-            # flags.flag_main = False
-
-        #           death_screen(screen)
+            save_progress(player.hp, player.damage, player.looted_chests, player.defeated_enemies)
+            flags["death_screen"] = True
+            flags["game_screen"] = False
+            return "death"
         player_group.sprites()[0].update_anim()
         for sprite in enemy_group.sprites():
             sprite.update_anim()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                terminate()
             if event.type == pygame.KEYDOWN:
                 player.update(event.key)
                 for sprite in enemy_group:
                     sprite.set_target_player(player)
                     sprite.update(event.key)
-        camera.update(pl)
+        camera.update(player)
         for sprite in all_sprites:
             camera.apply(sprite)
         all_sprites.draw(screen)
@@ -75,13 +57,23 @@ def main():
         clock.tick(FPS)
 
 
+def main():
+    level_number = 1
+    while any(flags.values()):
+        remove_all_sprites_groups()
+        if flags["start_screen"]:
+            set_music('dark_fantasy_background_music')
+            start_screen(screen)
+        elif flags["game_screen"]:
+            state = game_screen(screen, level_number)
+            while state != "death":
+                remove_all_sprites_groups()
+                level_number += 1
+                state = game_screen(screen, level_number)
+        elif flags["death_screen"]:
+            death_screen(screen)
+
+
 if __name__ == "__main__":
     main()
     terminate()
-# while True:
-#     if flags.flag_main and not flags.flag_start and not flags.flag_death:
-#         main()
-#     if flags.flag_start and not flags.flag_main and not flags.flag_death:
-#         start_screen(screen)
-#     if flags.flag_death and not flags.flag_main and not flags.flag_start:
-#         death_screen(screen)

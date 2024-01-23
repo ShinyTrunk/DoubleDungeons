@@ -186,12 +186,7 @@ class Player(AnimatedSprite):
                 # print(self.old_pos_x, enemy.rect.x)
                 # print(self.old_pos_y, enemy.rect.y)
                 self.hp -= enemy.damage
-                print('враг сзади')
             if enemy.hp <= 0:
                 enemy.remove((enemy_group, all_sprites))
                 self.defeated_enemies += 1
-            if self.hp <= 0:
-                # self.remove((player_group, all_sprites))
-                print("death")
-                # all_sprites.sprites().clear()
-                # change_level("level2_map")
+

@@ -1,3 +1,5 @@
-flag_death = False
-flag_start = True
-flag_main = False
+flags = {
+    "start_screen": True,
+    "death_screen": False,
+    "game_screen": False,
+}

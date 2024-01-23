@@ -21,7 +21,7 @@ def generate_level(level):
             Enemy(enemy_group, enemy_list[i][0], enemy_list[i][1],
                   load_image("animated_sprites\\thief_animated_sprite_48x48.png"), 8,
                   5, 125, 83.2, 0, 6)
-        if i % 2 != 0:
+        elif i % 2 != 0:
             Enemy(enemy_group, enemy_list[i][0], enemy_list[i][1],
                   load_image("animated_sprites\\thief_animated_sprite_48x48.png"), 8,
                   5, 120, 80, 0, 8)
