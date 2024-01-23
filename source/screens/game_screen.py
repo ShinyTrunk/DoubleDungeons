@@ -41,7 +41,5 @@ def game_screen(screen, level_number, camera, clock, player_hp):
             camera.apply(sprite)
         all_sprites.draw(screen)
         show_interface(screen)
-
         pygame.display.flip()
         clock.tick(FPS)
-
