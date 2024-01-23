@@ -5,7 +5,7 @@ from characters import Enemy, Player
 enemy_list = []
 
 
-def generate_level(level):
+def generate_level(level, player_hp):
     new_player, x, y = None, None, None
     px, py = None, None
     for y in range(len(level)):
@@ -28,6 +28,6 @@ def generate_level(level):
     if len(player_group.sprites()) == 0:
         new_player = Player(player_group, px, py,
                             load_image("animated_sprites\\knight_animated_sprite_48x48.png"), 14,
-                            7, 120, 80, 0, 7)
+                            7, 120, 80, 0, 7, player_hp)
 
     return new_player, x, y

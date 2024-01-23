@@ -14,22 +14,18 @@ from level import *
 from flags import flags
 
 pygame.init()
-screen = pygame.display.set_mode(SIZE)
 
 pygame.display.set_caption('Double Dungeons')
 
-camera = Camera()
-clock = pygame.time.Clock()
 
-
-def game_screen(screen, level_number) -> str:
+def game_screen(screen, level_number, camera, clock, player_hp):
     set_tiled_map(f'level{level_number}_map')
-    player, level_x, level_y = generate_level(load_level('map/map.txt'))
+    player, level_x, level_y = generate_level(load_level('map/map.txt'), player_hp)
     while flags["game_screen"]:
         screen.fill((0, 0, 0))
         if len(enemy_group.sprites()) == 0:
             save_progress(player.hp, player.damage, player.looted_chests, player.defeated_enemies)
-            return "live"
+            return player.hp
         if player.hp <= 0:
             pygame.mixer.music.stop()
             save_progress(player.hp, player.damage, player.looted_chests, player.defeated_enemies)
@@ -58,18 +54,22 @@ def game_screen(screen, level_number) -> str:
 
 
 def main():
-    level_number = 1
+    screen = pygame.display.set_mode(SIZE)
+    camera = Camera()
+    clock = pygame.time.Clock()
+    hp = 20
     while any(flags.values()):
+        level_number = 1
         remove_all_sprites_groups()
         if flags["start_screen"]:
             set_music('dark_fantasy_background_music')
             start_screen(screen)
         elif flags["game_screen"]:
-            state = game_screen(screen, level_number)
-            while state != "death":
+            hp = game_screen(screen, level_number, camera, clock, hp)
+            while hp != "death":
                 remove_all_sprites_groups()
                 level_number += 1
-                state = game_screen(screen, level_number)
+                hp = game_screen(screen, level_number, camera, clock, hp)
         elif flags["death_screen"]:
             death_screen(screen)
 
