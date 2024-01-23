@@ -17,18 +17,19 @@ pygame.init()
 screen = pygame.display.set_mode(SIZE)
 
 pygame.display.set_caption('Double Dungeons')
-#start_screen(screen)
+start_screen(screen)
 
 set_tiled_map('level1_map_2')
 player, level_x, level_y = generate_level(load_level('map/map.txt'))
 player_obj = player_group.sprites()[0]
 camera = Camera()
 clock = pygame.time.Clock()
-set_music('dark_fantasy_background_music')
+
 pl = player
 
 
 def main():
+    set_music('dark_fantasy_background_music')
     # scale_image("death_Screen.png", 0.667, 0.742, "data/death_screens", "death_screen.png")
     global pl
     running = True
@@ -36,7 +37,8 @@ def main():
     while running:
         screen.fill((0, 0, 0))
         if len(enemy_group.sprites()) == 0:
-            save_progress(player_obj.hp, player_obj.damage, player_obj.looted_chests, player_obj.rect.x, player_obj.rect.y)
+            save_progress(player_obj.hp, player_obj.damage, player_obj.looted_chests, player_obj.rect.x,
+                          player_obj.rect.y)
             print(load_progress())
             for sprite in all_sprites:
                 sprite.remove(all_sprites)
@@ -47,10 +49,11 @@ def main():
             all_sprites.draw(screen)
         if player.hp <= 0:
             pygame.mixer.music.stop()
-            flags.flag_death = True
-            flags.flag_main = False
+            death_screen(screen)
+            # flags.flag_death = True
+            # flags.flag_main = False
 
- #           death_screen(screen)
+        #           death_screen(screen)
         player_group.sprites()[0].update_anim()
         for sprite in enemy_group.sprites():
             sprite.update_anim()
@@ -73,13 +76,12 @@ def main():
 
 
 if __name__ == "__main__":
-    while True:
-        if flags.flag_main:
-            main()
-        elif flags.flag_start:
-            start_screen(screen)
-        elif flags.flag_death:
-            death_screen(screen)
+    main()
     terminate()
-
-
+# while True:
+#     if flags.flag_main and not flags.flag_start and not flags.flag_death:
+#         main()
+#     if flags.flag_start and not flags.flag_main and not flags.flag_death:
+#         start_screen(screen)
+#     if flags.flag_death and not flags.flag_main and not flags.flag_start:
+#         death_screen(screen)

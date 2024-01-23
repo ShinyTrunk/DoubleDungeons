@@ -40,8 +40,8 @@ def death_screen(screen):
             pos = pygame.mouse.get_pos()
             if event.type == pygame.QUIT:
                 terminate()
-            elif button.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
+            if button.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
                 flags.flag_start = True
                 flags.flag_death = False
-  #              start_screen(screen)
+                return start_screen(screen)
         pygame.display.flip()
