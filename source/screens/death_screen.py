@@ -14,7 +14,8 @@ pygame.font.init()
 def death_screen_show_text(screen):
     you_died_text = bold_font.render("you died", True, "white")
     looted_chests_text = standart_font.render(f"chests looted: {load_progress()['looted_chests']}", True, "white")
-    defeated_enemies_text = standart_font.render(f"enemies defeated: {load_progress()['enemies_defeated']}", True, "white")
+    defeated_enemies_text = standart_font.render(f"enemies defeated: {load_progress()['enemies_defeated']}", True,
+                                                 "white")
     button_text = standart_font.render(f"retry", True, "white")
     screen.blit(looted_chests_text, (220, 250))
     screen.blit(defeated_enemies_text, (190, 350))

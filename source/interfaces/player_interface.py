@@ -1,7 +1,7 @@
 import pygame
 
 from source.helpers.fonts import standart_font
-from source.sprites.sprite_groups.sprite_groups import player_group, chests_group
+from source.sprites.sprite_groups.sprite_groups import player_group
 
 pygame.font.init()
 
