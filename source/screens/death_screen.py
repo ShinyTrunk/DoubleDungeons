@@ -6,7 +6,7 @@ from source.functions.set_music import set_music
 from source.functions.terminate import terminate
 from source.helpers.fonts import bold_font, standart_font
 from source.helpers.settings import WIDTH, HEIGHT
-from source.helpers.state import flags
+from source.helpers.state import state
 
 pygame.font.init()
 
@@ -26,7 +26,7 @@ def death_screen(screen):
     set_music("death_screen_music")
     background = pygame.transform.scale(load_image('death_screens\\death_screen.png'), (WIDTH, HEIGHT))
     screen.blit(background, (0, 0))
-    while flags["death_screen"]:
+    while state["death_screen"]:
         button_rect = pygame.rect.Rect(320, 440, 200, 75)
         pygame.draw.rect(screen, "red", button_rect)
         death_screen_show_text(screen)
@@ -35,7 +35,7 @@ def death_screen(screen):
             if event.type == pygame.QUIT:
                 terminate()
             if button_rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-                flags["start_screen"] = True
-                flags["death_screen"] = False
+                state["start_screen"] = True
+                state["death_screen"] = False
                 return
         pygame.display.flip()

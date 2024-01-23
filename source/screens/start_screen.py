@@ -2,7 +2,7 @@ import pygame
 
 from source.functions.load_image import load_image
 from source.functions.terminate import terminate
-from source.helpers.state import flags
+from source.helpers.state import state
 from source.helpers.settings import WIDTH, HEIGHT
 
 
@@ -15,7 +15,7 @@ def start_screen(screen):
             if event.type == pygame.QUIT:
                 terminate()
             if button_rect.collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-                flags["start_screen"] = False
-                flags["game_screen"] = True
+                state["start_screen"] = False
+                state["game_screen"] = True
                 return
         pygame.display.flip()
